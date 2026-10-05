@@ -1,0 +1,51 @@
+# FlyCyborg default configuration
+# Override individual keys by passing a custom YAML to --config
+
+seed: 42
+
+# ── Brain ──────────────────────────────────────────────────────────────────
+brain:
+  nav_lite_path: "../FlyIdea/data/nav_lite.npz"   # path to FlyIdea data
+  dt_ms: 0.5                # LIF timestep [ms]
+  lif_ms_per_step: 10.0     # LIF simulation time per environment step [ms]
+
+# ── Senses ─────────────────────────────────────────────────────────────────
+senses:
+  near_threshold_m: 1.5     # depth < this → obstacle near
+  far_clip_m: 10.0          # clip depth beyond this
+
+# ── Motor ──────────────────────────────────────────────────────────────────
+motor:
+  smoothing: 0.4            # EMA smoothing coefficient
+  deadzone: 0.05            # ignore signals below this
+  settle_s: 1.0             # seconds to measure resting baseline
+
+# ── Environment ────────────────────────────────────────────────────────────
+env:
+  scene: "FloorPlan1"
+  width: 300
+  height: 300
+  fov: 90
+  grid_size: 0.25
+  headless: false           # set true for servers without display
+  render_depth: true
+
+# ── Navigation task ────────────────────────────────────────────────────────
+task:
+  type: "PointNav"          # PointNav | ObjectNav
+  success_dist_m: 1.0       # within this distance → success
+  max_steps: 200
+  object_type: "Chair"      # only used for ObjectNav
+
+# ── Evolution (CMA-ES) ────────────────────────────────────────────────────
+evo:
+  n_generations: 200
+  sigma0: 0.3               # initial CMA-ES step size
+  popsize: null             # null = auto (≈ 4 + 3*ln(D))
+  episodes_per_candidate: 3
+  scenes:
+    - "FloorPlan1"
+    - "FloorPlan2"
+    - "FloorPlan3"
+  results_dir: "results"
+  checkpoint_every: 10

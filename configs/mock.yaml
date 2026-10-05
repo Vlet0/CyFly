@@ -1,0 +1,41 @@
+# Mock config — no AI2-THOR, no nav_lite.npz required.
+# Uses MockThorEnv + a tiny synthetic random brain.
+# Run with: python examples/01_run_single_episode.py --config configs/mock.yaml --mock
+
+seed: 0
+
+brain:
+  nav_lite_path: null       # null = use synthetic brain (see examples)
+  dt_ms: 0.5
+  lif_ms_per_step: 5.0      # faster for testing
+
+senses:
+  near_threshold_m: 1.5
+  far_clip_m: 10.0
+
+motor:
+  smoothing: 0.4
+  deadzone: 0.05
+  settle_s: 0.5
+
+env:
+  width: 84
+  height: 84
+  fov: 90
+  grid_size: 0.25
+  headless: false
+  render_depth: true
+
+task:
+  type: "PointNav"
+  success_dist_m: 1.0
+  max_steps: 50
+
+evo:
+  n_generations: 5
+  sigma0: 0.5
+  popsize: 4
+  episodes_per_candidate: 2
+  scenes: ["MockScene"]
+  results_dir: "results/mock"
+  checkpoint_every: 2

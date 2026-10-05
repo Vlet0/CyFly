@@ -1,0 +1,49 @@
+# Full MaleCNS config — real connectome, real AI2-THOR.
+# Requires:
+#   - nav_lite.npz built by FlyIdea
+#   - ai2thor installed (Python 3.8-3.10)
+#   - pycma installed
+
+seed: 42
+
+brain:
+  nav_lite_path: "../FlyIdea/data/nav_lite.npz"
+  dt_ms: 0.5
+  lif_ms_per_step: 10.0
+
+senses:
+  near_threshold_m: 1.5
+  far_clip_m: 10.0
+
+motor:
+  smoothing: 0.35
+  deadzone: 0.04
+  settle_s: 1.5
+
+env:
+  scene: "FloorPlan1"
+  width: 300
+  height: 300
+  fov: 90
+  grid_size: 0.25
+  headless: false
+  render_depth: true
+
+task:
+  type: "PointNav"
+  success_dist_m: 1.0
+  max_steps: 200
+
+evo:
+  n_generations: 500
+  sigma0: 0.2
+  popsize: null
+  episodes_per_candidate: 5
+  scenes:
+    - "FloorPlan1"
+    - "FloorPlan2"
+    - "FloorPlan3"
+    - "FloorPlan4"
+    - "FloorPlan5"
+  results_dir: "results/malecns"
+  checkpoint_every: 10
